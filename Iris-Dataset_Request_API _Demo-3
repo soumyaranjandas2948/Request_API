@@ -1,0 +1,13 @@
+import requests
+import json
+url="http://127.0.0.1:5000/get_pre/?sepal_length=6.3&sepal_width=2.8&petal_length=5.1&petal_width=1.5"
+response = requests.post(url=url)
+
+print(response.status_code)
+response_text = response.text
+d1=json.loads(response_text)
+print(d1)
+
+
+
+
