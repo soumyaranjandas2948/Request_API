@@ -1,0 +1,42 @@
+
+import pickle
+
+filename = open("C:\\Users\\SOUMYA RANJAN DAS\\Downloads\\Documents\\tel_churn\\lr_model.sav","rb")
+
+lr_model = pickle.load(filename)
+
+
+
+import pandas as pd
+
+df = pd.DataFrame({'sepal_length':[6.3],'sepal_width':[2.8],'petal_length':[5.1],'petal_width':[1.5]})
+
+df.head()
+
+lr_model.predict(df)
+
+def get_prediction(sepal_length,sepal_width,petal_length,petal_width):
+    x=pd.DataFrame({'sepal_length':[6.3],'sepal_width':[2.8],'petal_length':[5.1],'petal_width':[1.5]})
+    result = lr_model(x)
+    return result
+rom flask import Flask, request
+app =Flask(__name__)
+import json
+@app.route('/get_pre/',methods=['GET','POST'])
+def get_prediction1():
+    sepal_length = request.args.get('sepal_length')
+    sepal_width = request.args.get('sepal_width')
+    petal_length = request.args.get('petal_length')
+    petal_width = request.args.get('petal_width')
+    
+    x=pd.DataFrame({'sepal_length':[sepal_length],'sepal_width':[sepal_width],'petal_length':[petal_length],'petal_width':[petal_width]})
+    result = lr_model.predict(x)
+    print(result)
+    return str(result) #json.dumps({"prediction":result})
+
+if __name__ == "__main__":
+    app.debug=False
+    app.run(host="127.0.0.1",port=5000)
+
+
+
